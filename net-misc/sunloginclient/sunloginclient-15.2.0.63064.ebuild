@@ -18,7 +18,8 @@ SLOT="0"
 KEYWORDS="-* ~amd64"
 IUSE="keep-server systemd"
 
-RDEPEND="dev-libs/libappindicator:3
+RDEPEND="
+	dev-libs/libayatana-appindicator
 	x11-apps/xhost
 	virtual/libcrypt:=
 	virtual/libsystemd[systemd=]
@@ -46,6 +47,7 @@ src_install() {
 	doins -r ${LS}/{bin,res,lib}
 	fperms +x /opt/${MY_PN}/bin/{oray_rundaemon,${PN}{,_desktop}}
 	dosym -r /opt/{${MY_PN},}/bin/${PN}
+	dosym -r /usr/$(get_libdir)/libayatana-appindicator3.so /opt/${MY_PN}/lib/libappindicator3.so.1
 	keepdir /opt/${MY_PN}/etc
 
 	use keep-server && newinitd "${FILESDIR}"/runoraydaemon.initd runoraydaemon

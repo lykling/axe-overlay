@@ -21,7 +21,7 @@ KEYWORDS="-* ~amd64"
 RDEPEND="app-text/aspell
 	app-text/hunspell
 	app-text/nuspell
-	dev-libs/libappindicator:3
+	dev-libs/libayatana-appindicator
 	dev-libs/libvoikko
 	x11-apps/xhost
 	virtual/libcrypt:=
@@ -53,6 +53,7 @@ src_install() {
 	fperms 666 /opt/${MY_PPN}/res/font/wqy-zenhei.ttc
 	fperms 666 /opt/${MY_PPN}/res/skin/{desktopcontrol.skin,remotecamera.skin,remotecmd.skin,remotefile.skin,skin.skin}
 	dosym -r /opt/{${MY_PPN},}/bin/${PN}
+	dosym -r /usr/$(get_libdir)/libayatana-appindicator3.so /opt/${MY_PN}/lib/libappindicator3.so.1
 
 	newinitd "${FILESDIR}"/run${P}.initd run${PN}
 	systemd_dounit ${LS}/scripts/run${PN}.service

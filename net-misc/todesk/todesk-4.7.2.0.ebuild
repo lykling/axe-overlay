@@ -17,7 +17,8 @@ LICENSE="ToDesk"
 SLOT="0"
 KEYWORDS="-* ~amd64 ~arm64"
 
-RDEPEND="dev-libs/libappindicator:3
+RDEPEND="
+	dev-libs/libayatana-appindicator
 	virtual/libsystemd
 "
 
@@ -31,6 +32,8 @@ src_install() {
 	insopts -m755
 	doins -r opt/${PN}
 	fperms -x /opt/${PN}/res/{20-todesk.conf,fake.png,small.ico}
+
+	dosym -r /usr/$(get_libdir)/libayatana-appindicator3.so /opt/${PN}/bin/libappindicator3.so.1
 
 	exeinto /opt/bin
 	doexe usr/local/bin/${PN}
