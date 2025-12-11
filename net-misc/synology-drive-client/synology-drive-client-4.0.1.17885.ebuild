@@ -1,0 +1,62 @@
+# Copyright 2025 Gentoo Authors
+# Distributed under the terms of the GNU General Public License v2
+
+EAPI=8
+inherit desktop unpacker xdg
+
+VER=${PV%.*}
+BUILD=${PV##*.}
+DESCRIPTION="Desktop utility that lets you sync files and back up to a Synology Drive Server"
+HOMEPAGE="https://www.synology.com/en-global/dsm/feature/drive"
+SRC_URI="https://global.synologydownload.com/download/Utility/SynologyDriveClient/${VER}-${BUILD}/Ubuntu/Installer/${PN}-${BUILD}.x86_64.deb"
+
+LICENSE="Synology"
+SLOT="0"
+KEYWORDS="~amd64"
+IUSE="nautilus"
+
+DEPEND="
+	>=dev-libs/glib-2.16.0
+	>=x11-libs/gtk+-2.12.0
+
+	nautilus? ( gnome-base/nautilus )
+"
+RDEPEND="${DEPEND}"
+BDEPEND=""
+
+S="${WORKDIR}"
+
+RESTRICT="bindist mirror strip"
+QA_PREBUILT="*"
+REQUIRES_EXCLUDE="/opt/Synology/SynologyDrive/package/cloudstation/icon-overlay/14/lib/plugin-cb.so"
+
+src_unpack() {
+	unpack_deb ${A}
+}
+
+src_install() {
+	insinto /opt
+	doins -r opt/Synology
+
+	# Fix permissions
+	chmod +x "${ED}"/opt/Synology/SynologyDrive/bin/launcher || die
+	chmod +x "${ED}"/opt/Synology/SynologyDrive/package/cloudstation/bin/cloud-drive-* || die
+	chmod +x "${ED}"/opt/Synology/SynologyDrive/package/cloudstation/bin/get_system_proxy.sh || die
+	chmod +x "${ED}"/opt/Synology/SynologyDrive/package/cloudstation/package/start-stop || die
+
+	exeinto /usr/bin
+	doexe usr/bin/synology-drive
+
+	domenu usr/share/applications/synology-drive.desktop
+
+	if use nautilus; then
+		insinto /usr/lib64/nautilus/extensions-4
+		doins usr/lib/nautilus/extensions-4/libnautilus-drive-extension-4.so
+	fi
+
+	insinto /usr/share
+	doins -r usr/share/icons
+
+	dodoc usr/share/doc/synology-drive/changelog.gz
+	dodoc usr/share/doc/synology-drive/copyright
+}
