@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE pkgmetadata SYSTEM "https://www.gentoo.org/dtd/metadata.dtd">
+<pkgmetadata>
+	<maintainer type="person">
+		<email>lykling.lyk@gmail.com</email>
+		<name>Pride Leong</name>
+	</maintainer>
+	<longdescription lang="en">
+		China Mobile Cloud Drive (中国移动云盘) is a cloud storage client
+		by China Mobile. It provides file sync, backup, and sharing capabilities.
+		The Linux client is built as an Electron app with Qt5-based subprocesses
+		for backup and sync operations.
+	</longdescription>
+	<longdescription lang="zh">
+		中国移动云盘客户端，提供文件同步、备份和分享功能。
+		Linux 客户端基于 Electron 构建，备份同步子进程使用 Qt5。
+	</longdescription>
+</pkgmetadata>
